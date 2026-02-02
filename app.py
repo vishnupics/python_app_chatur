@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import json
 import os
+import subprocess
+import platform
 root = tk.Tk()
 root.title("Dynamic Textbox Generator")
 root.geometry("900x700")
@@ -222,6 +224,17 @@ def proceed_action():
         json.dump(data, f, indent=4)
 
     os.startfile("project_config.json")
+
+    # Open Anaconda Navigator
+    try:
+        if platform.system() == "Windows":
+            subprocess.Popen("anaconda-navigator", creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
+        elif platform.system() == "Darwin":  # macOS
+            subprocess.Popen(["open", "-a", "Anaconda Navigator"])
+        else:  # Linux
+            subprocess.Popen("anaconda-navigator", start_new_session=True)
+    except Exception as e:
+        print(f"Error opening Anaconda Navigator: {e}")
 
 tk.Button(
     button_frame,
